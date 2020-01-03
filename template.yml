@@ -1,0 +1,132 @@
+Resources:
+  HelloHandlerServiceRole11EF7C63:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+    Metadata:
+      aws:cdk:path: HelloAppStack/HelloHandler/ServiceRole/Resource
+  HelloHandler2E4FBA4D:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket:
+          Ref: AssetParametersf55c7f48af14fd41ed17e813cbe9bed9bc9f803fb393340255362b873eaf1e20S3Bucket6933445D
+        S3Key:
+          Fn::Join:
+            - ""
+            - - Fn::Select:
+                  - 0
+                  - Fn::Split:
+                      - "||"
+                      - Ref: AssetParametersf55c7f48af14fd41ed17e813cbe9bed9bc9f803fb393340255362b873eaf1e20S3VersionKey36BF08A6
+              - Fn::Select:
+                  - 1
+                  - Fn::Split:
+                      - "||"
+                      - Ref: AssetParametersf55c7f48af14fd41ed17e813cbe9bed9bc9f803fb393340255362b873eaf1e20S3VersionKey36BF08A6
+      Handler: hello.helloWorld
+      Role:
+        Fn::GetAtt:
+          - HelloHandlerServiceRole11EF7C63
+          - Arn
+      Runtime: nodejs8.10
+      MemorySize: 1024
+    DependsOn:
+      - HelloHandlerServiceRole11EF7C63
+    Metadata:
+      aws:cdk:path: HelloAppStack/HelloHandler/Resource
+      aws:asset:path: /home/ubuntu/Projects/aws/hello-app/lambda
+      aws:asset:property: Code
+  CDKMetadata:
+    Type: AWS::CDK::Metadata
+    Properties:
+      Modules: aws-cdk=1.19.0,@aws-cdk/assets=1.19.0,@aws-cdk/aws-cloudwatch=1.19.0,@aws-cdk/aws-ec2=1.19.0,@aws-cdk/aws-events=1.19.0,@aws-cdk/aws-iam=1.19.0,@aws-cdk/aws-kms=1.19.0,@aws-cdk/aws-lambda=1.19.0,@aws-cdk/aws-s3=1.19.0,@aws-cdk/aws-s3-assets=1.19.0,@aws-cdk/aws-sqs=1.19.0,@aws-cdk/aws-ssm=1.19.0,@aws-cdk/core=1.19.0,@aws-cdk/cx-api=1.19.0,@aws-cdk/region-info=1.19.0,jsii-runtime=node.js/v12.13.0
+    Condition: CDKMetadataAvailable
+Parameters:
+  AssetParametersf55c7f48af14fd41ed17e813cbe9bed9bc9f803fb393340255362b873eaf1e20S3Bucket6933445D:
+    Type: String
+    Description: S3 bucket for asset "f55c7f48af14fd41ed17e813cbe9bed9bc9f803fb393340255362b873eaf1e20"
+  AssetParametersf55c7f48af14fd41ed17e813cbe9bed9bc9f803fb393340255362b873eaf1e20S3VersionKey36BF08A6:
+    Type: String
+    Description: S3 key for asset version "f55c7f48af14fd41ed17e813cbe9bed9bc9f803fb393340255362b873eaf1e20"
+  AssetParametersf55c7f48af14fd41ed17e813cbe9bed9bc9f803fb393340255362b873eaf1e20ArtifactHashEC76BCF2:
+    Type: String
+    Description: Artifact hash for asset "f55c7f48af14fd41ed17e813cbe9bed9bc9f803fb393340255362b873eaf1e20"
+Conditions:
+  CDKMetadataAvailable:
+    Fn::Or:
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ca-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-northwest-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-central-1
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-3
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - me-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - sa-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-2
+
